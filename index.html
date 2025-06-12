@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Unggah File Kamu!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@1,700&display=swap');
+
+
+    body {
+        font-family: 'Comic Neue', cursive;
+        background: linear-gradient(120deg, #f093fb, #f5576c);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .upload-container {
+        background-color: #fff8f0;
+        padding: 35px 45px;
+        border-radius: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 350px;
+        animation: popIn 0.8s ease;
+    }
+
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+    }
+
+    h2 {
+        color: #ff4081;
+        margin-bottom: 25px;
+        font-size: 26px;
+    }
+
+    input[type="file"] {
+        margin-bottom: 20px;
+        border: 2px dashed #ff80ab;
+        padding: 10px;
+        border-radius: 10px;
+        background: #fff0f5;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        background: linear-gradient(90deg, #ff8a65, #f44336);
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        transform: scale(1.05);
+        background: linear-gradient(90deg, #f44336, #ff7043);
+    }
+
+    #preview-container {
+        margin-top: 25px;
+        max-width: 100%;
+        max-height: 300px;
+        border-radius: 15px;
+        display: none;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        border: 4px solid #ffb6b9;
+        overflow: auto;
+    }
+    #preview-container img,
+    #preview-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: inherit;
+    }
+
+    .emoji { font-size: 30px; margin-bottom: 10px; }
+</style>
+
+
+</head>
+<body>
+    <div class="upload-container">
+        <div class="emoji">📁</div>
+        <h2>Unggah Gambar atau PDF Kamu!</h2>
+        <form action="upload.php" method="post" enctype="multipart/form-data">
+            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*,application/pdf" required><br><br>
+            <input type="submit" value="Unggah Sekarang!" name="submit">
+            <div id="preview-container"></div>
+        </form>
+    </div>
+
+
+<script>
+    const fileInput = document.getElementById('fileToUpload');
+    const previewContainer = document.getElementById('preview-container');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        previewContainer.innerHTML = '';
+        if (!file) { previewContainer.style.display = 'none'; return; }
+        const url = URL.createObjectURL(file);
+        if (file.type.startsWith('image/')) {
+            const img = document.createElement('img'); img.src = url;
+            previewContainer.appendChild(img);
+        } else if (file.type === 'application/pdf') {
+            const iframe = document.createElement('iframe'); iframe.src = url;
+            previewContainer.appendChild(iframe);
+        }
+        previewContainer.style.display = 'block';
+    });
+</script>
+
+
+</body>
+</html>
